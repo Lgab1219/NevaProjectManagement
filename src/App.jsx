@@ -25,6 +25,7 @@ function App() {
 
   const [tasks, setTask] = useState([]);
   const [taskInput, setTaskInput] = useState('');
+  const [taskRemoved, setTaskRemoved] = useState(false);
 
   function addTask() {
     setTask([...tasks, taskInput]);
@@ -42,8 +43,9 @@ function App() {
       <p>Tasks:</p><br />
       {tasks.map((task, index) => (
         <div className='task' key={index}>
+          <h3>Task:</h3>
           <p>{task}</p>
-          <input type="button" value="Completed" className='complete-box' onClick={() => {removeTask(index)}} />
+          <input type="button" value="Completed" className='complete-btn' onClick={() => {removeTask(index)}} />
         </div>
       ))}
     </>
