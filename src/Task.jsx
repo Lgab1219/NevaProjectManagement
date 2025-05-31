@@ -6,8 +6,7 @@ function Task({ tasks, removeTask }) {
         <>
             {tasks.map(task => (
                 <div className={`task ${task.completed ? 'remove' : ''}`} key={task.id}>
-                  <h3>Task:</h3>
-                  <p>{task.text}</p>
+                  <h3>{task.text}</h3>
                   <p>Priority: {task.priority}</p>
                   <input type="button" value="Completed" className='complete-btn' onClick={() => {removeTask(task.id)}} />
                 </div>
