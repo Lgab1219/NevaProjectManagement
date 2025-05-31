@@ -19,7 +19,7 @@ function Form({ addTask, setTaskInput, taskInput  }) {
             <option value="required">Required</option>
             <option value="unimportant">Unimportant</option>
           </select><br /><br />
-          <button type="submit" className='add-button'>Add Task</button>
+          <button type="submit" className='add-btn'>Add Task</button>
         </form>
       </div>
     </>
