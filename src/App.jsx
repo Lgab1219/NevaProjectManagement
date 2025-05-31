@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Form from './Form.jsx'
+import Task from './Task.jsx';
 import './App.css'
 
 function App() {
@@ -35,14 +36,7 @@ function App() {
     <>
       <Form addTask={addTask} setTaskInput={setTaskInput} taskInput={taskInput} />
       <p>Tasks:</p><br />
-      {tasks.map(task => (
-        <div className={`task ${task.completed ? 'remove' : ''}`} key={task.id}>
-          <h3>Task:</h3>
-          <p>{task.text}</p>
-          <p>Priority: {task.priority}</p>
-          <input type="button" value="Completed" className='complete-btn' onClick={() => {removeTask(task.id)}} />
-        </div>
-      ))}
+      <Task tasks={tasks} removeTask={removeTask} />
     </>
   )
 }
