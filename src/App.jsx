@@ -1,42 +1,32 @@
 import { useState } from 'react'
-import Form from './Form.jsx'
-import Task from './Task.jsx';
+import ProjectCard from './ProjectCard.jsx'
 import './App.css'
 
 function App() {
 
-  const [tasks, setTask] = useState([]);
-  const [taskInput, setTaskInput] = useState('');
+  const [projects, setProjects] = useState([]);
 
-  function addTask(event) {
-    const priorityValue = event.target.priority.value;
-    
-    const newTask = {
-      id: Date.now(),
-      text: taskInput,
-      priority: priorityValue,
-      completed: false
+  function addProject(event) {
+
+    event.preventDefault();
+
+    const newProject = {
+      id: Date.now()
     }
 
-    setTask([...tasks, newTask]);
-    setTaskInput('');
-  }
-
-  function removeTask(taskID) {
-    setTask(tasks => tasks.map(task => task.id === taskID ? {...task, completed: !task.completed} : task));
-
-    setTimeout(() => {
-    const updatedTasks = tasks.filter(task => (task.id !== taskID));
-    setTask(updatedTasks);
-    }, 1000);
-
-  }
+    setProjects([...projects, newProject]);
+}
 
   return (
     <>
-      <Form addTask={addTask} setTaskInput={setTaskInput} taskInput={taskInput} />
-      <p>Tasks:</p><br />
-      <Task tasks={tasks} removeTask={removeTask} />
+    <div id='btn-container'>
+      <button type="submit" className='add-project-btn' onClick={addProject}>+</button>
+    </div>
+    <div id='project-container'>
+      {projects.map(project => (
+        <ProjectCard key={project.id} projectTitle={project.id} />
+      ))}
+    </div>
     </>
   )
 }
