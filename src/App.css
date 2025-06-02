@@ -6,7 +6,7 @@
     animation: taskAdded 1s forwards;
 }
 
-.task.remove {
+.task.remove, .project.remove {
     animation: taskRemoved 1s forwards;
     pointer-events: none;
 }
@@ -28,6 +28,7 @@
 #project-container {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 #task-input {
@@ -87,4 +88,19 @@
     background-color: rgb(143, 212, 136);
     font-size: 1em;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.remove-project-btn {
+    border: none;
+    width: 2em;
+    height: 2em;
+    border-radius: 30px;
+    background-color: rgb(219, 121, 121);
+    font-size: 1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.remove-project-btn:hover {
+    background-color: rgb(170, 53, 53);
+    color: white;
 }

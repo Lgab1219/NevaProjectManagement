@@ -3,10 +3,11 @@ import Form from './Form.jsx'
 import Task from './Task.jsx';
 import './App.css'
 
-function ProjectCard({ projectTitle }) {
+function ProjectCard({ projectTitle, removeProject, projects }) {
 
   const [tasks, setTask] = useState([]);
   const [taskInput, setTaskInput] = useState('');
+  const [projectRemoved, setProjectRemoved] = useState(false);
 
   function addTask(event) {
     const priorityValue = event.target.priority.value;
@@ -32,9 +33,14 @@ function ProjectCard({ projectTitle }) {
 
   }
 
+  function handleRemove() {
+   setProjectRemoved(!projectRemoved);
+  }
+
     return (
         <>
-        <div className='project'>
+        <div className={`project ${projectRemoved === true ? 'remove' : ''}`} onTransitionEnd={() => {removeProject(projects.id)}}>
+          <span><button className='remove-project-btn' onClick={handleRemove}>x</button></span>
           <h1>Project {projectTitle}</h1>
           <Form addTask={addTask} setTaskInput={setTaskInput} taskInput={taskInput} />
           <h2>Tasks:</h2><br />

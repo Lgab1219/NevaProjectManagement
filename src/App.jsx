@@ -7,7 +7,6 @@ function App() {
   const [projects, setProjects] = useState([]);
 
   function addProject(event) {
-
     event.preventDefault();
 
     const newProject = {
@@ -17,6 +16,15 @@ function App() {
     setProjects([...projects, newProject]);
 }
 
+function removeProject(projectID) {
+  const updatedProjects = projects.filter(project => (project.id !== projectID));
+  setProjects(updatedProjects);
+
+  setTimeout(() => {
+    setProjects(updatedProjects);
+  }, 1000)
+}
+
   return (
     <>
     <div id='btn-container'>
@@ -24,7 +32,7 @@ function App() {
     </div>
     <div id='project-container'>
       {projects.map(project => (
-        <ProjectCard key={project.id} projectTitle={project.id} />
+        <ProjectCard key={project.id} removeProject={removeProject} projectTitle={project.id} projects={projects} />
       ))}
     </div>
     </>
