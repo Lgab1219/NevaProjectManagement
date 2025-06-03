@@ -78,6 +78,7 @@
 .complete-btn:hover, .add-btn:hover, .add-project-btn:hover {
     background-color: rgb(52, 128, 44);
     color: white;
+    cursor: pointer;
 }
 
 .add-project-btn {
@@ -103,4 +104,5 @@
 .remove-project-btn:hover {
     background-color: rgb(170, 53, 53);
     color: white;
+    cursor: pointer;
 }
