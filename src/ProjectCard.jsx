@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Form from './Form.jsx'
 import Task from './Task.jsx';
 import './App.css'
 
-function ProjectCard({ projectTitle, removeProject, projects }) {
+function ProjectCard({ projectID, removeProject, projectTitle }) {
 
   const [tasks, setTask] = useState([]);
   const [taskInput, setTaskInput] = useState('');
@@ -46,8 +46,8 @@ function ProjectCard({ projectTitle, removeProject, projects }) {
     return (
         <>
         <div className={`project ${projectRemoved ? 'remove' : ''}`}>
-          <span><button className='remove-project-btn' onClick={() => handleRemove(projectTitle)}>x</button></span>
-          <h1>Project {projectTitle}</h1>
+          <span><button className='remove-project-btn' onClick={() => handleRemove(projectID)}>x</button></span>
+          <h1>{projectTitle}</h1>
           <Form addTask={addTask} setTaskInput={setTaskInput} taskInput={taskInput} />
           <h2>Tasks:</h2><br />
           <Task tasks={tasks} removeTask={removeTask} />
