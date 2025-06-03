@@ -19,10 +19,6 @@ function App() {
 function removeProject(projectID) {
   const updatedProjects = projects.filter(project => (project.id !== projectID));
   setProjects(updatedProjects);
-
-  setTimeout(() => {
-    setProjects(updatedProjects);
-  }, 1000)
 }
 
   return (

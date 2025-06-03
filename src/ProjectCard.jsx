@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Form from './Form.jsx'
 import Task from './Task.jsx';
 import './App.css'
@@ -33,14 +33,20 @@ function ProjectCard({ projectTitle, removeProject, projects }) {
 
   }
 
-  function handleRemove() {
+  function handleRemove(projectTitle) {
+   // Trigger animation
    setProjectRemoved(!projectRemoved);
+   
+   // Trigger timer for 900ms then remove state
+   setTimeout(() => {
+     removeProject(projectTitle);
+   }, 500);
   }
 
     return (
         <>
-        <div className={`project ${projectRemoved === true ? 'remove' : ''}`} onTransitionEnd={() => {removeProject(projects.id)}}>
-          <span><button className='remove-project-btn' onClick={handleRemove}>x</button></span>
+        <div className={`project ${projectRemoved ? 'remove' : ''}`}>
+          <span><button className='remove-project-btn' onClick={() => handleRemove(projectTitle)}>x</button></span>
           <h1>Project {projectTitle}</h1>
           <Form addTask={addTask} setTaskInput={setTaskInput} taskInput={taskInput} />
           <h2>Tasks:</h2><br />
