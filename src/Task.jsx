@@ -1,6 +1,6 @@
 import './App.css'
 
-function Task({ tasks, removeTask }) {
+function Task({ tasks = [], removeTask }) {
 
     return (
         <>
