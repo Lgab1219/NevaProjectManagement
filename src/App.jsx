@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import ProjectCard from './ProjectCard.jsx'
+import supabase from './js/supabase.js'
 import './App.css'
 
 function App() {
@@ -9,16 +10,45 @@ function App() {
   const [projectPanel, toggleProjectPanel] = useState(false);
   const panelRef = useRef(null);
 
-  function addProject(event) {
+  const fetchProjects = async () => {
+    const { data, error } = await supabase
+    .from('projects')
+    .select('*')
+
+    if (error) {
+      console.log("ERROR: ", error);
+    } else {
+      setProjects(data);
+    }
+  }
+
+  useEffect(() => {
+    fetchProjects();
+  }, [])
+
+  async function addProject(event) {
       event.preventDefault();
 
-      const newProject = {
+      const { error } = await supabase
+      .from('projects')
+      .insert({
         id: Date.now(),
         title: projectInput
+      })
+
+      if (error) {
+        console.log("ERROR: ", error);
+      } else {
+        await fetchProjects();
       }
 
+      /*const newProject = {
+        id: Date.now(),
+        title: projectInput
+      }*/
+
       toggleProjectPanel(!projectPanel);
-      setProjects([...projects, newProject]);
+      //setProjects([...projects, newProject]);
   }
 
   function removeProject(projectID) {

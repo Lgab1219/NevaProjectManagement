@@ -1,13 +1,9 @@
 import { useState, useEffect } from 'react'
 import Form from './Form.jsx'
 import Task from './Task.jsx'
-import { createClient } from '@supabase/supabase-js'
+import supabase from './js/supabase.js'
 import './App.css'
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_KEY
-);
 
 function ProjectCard({ projectID, removeProject, projectTitle }) {
 
@@ -65,7 +61,16 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
     setTaskInput('');
   }
 
-  function removeTask(taskID) {
+  async function removeTask(taskID) {
+    const { error } = await supabase
+    .from('tasks')
+    .delete()
+    .eq('id', taskID)
+
+    if (error) {
+      console.log("ERROR: ", error);
+    }
+
     setTask(tasks => tasks.map(task => task.id === taskID ? {...task, completed: !task.completed} : task));
 
     setTimeout(() => {
@@ -75,7 +80,16 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
 
   }
 
-  function handleRemove(projectTitle) {
+  async function handleRemove(projectTitle) {
+    const { error } = await supabase
+    .from('projects')
+    .delete()
+    .eq('id', projectTitle)
+
+    if (error) {
+      console.log("ERROR: ", error);
+    }
+
    // Trigger animation
    setProjectRemoved(!projectRemoved);
    
