@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Form from './Form.jsx'
 import Task from './Task.jsx'
 import supabase from './js/supabase.js'
-import './App.css'
+import './css/App.css'
 
 
 function ProjectCard({ projectID, removeProject, projectTitle }) {
