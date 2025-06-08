@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import ProjectCard from './ProjectCard.jsx'
 import supabase from './js/supabase.js'
 import './css/App.css'
@@ -10,6 +10,20 @@ function Dashboard() {
   const [projectInput, setProjectInput] = useState('');
   const [projectPanel, toggleProjectPanel] = useState(false);
   const panelRef = useRef(null);
+  const navigate = useNavigate();
+
+  async function logOut(event) {
+    event.preventDefault();
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.log("ERROR: ", error);
+      return;
+    }
+
+    navigate('/');
+  }
 
   const fetchProjects = async () => {
     const { data, error } = await supabase
@@ -78,8 +92,8 @@ function Dashboard() {
   return (
     <>
     <div id='btn-container'>
+      <a href="" onClick={logOut}>Logout</a>
       <button type="submit" className='open-panel-btn' onClick={togglePanel}>+</button>
-      <Link to={'/'}>Logout</Link>
     </div>
 
     {
