@@ -1,14 +1,29 @@
 import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router'
 import ProjectCard from './ProjectCard.jsx'
 import supabase from './js/supabase.js'
-import './App.css'
+import './css/App.css'
 
-function App() {
+function Dashboard() {
 
   const [projects, setProjects] = useState([]);
   const [projectInput, setProjectInput] = useState('');
   const [projectPanel, toggleProjectPanel] = useState(false);
   const panelRef = useRef(null);
+  const navigate = useNavigate();
+
+  async function logOut(event) {
+    event.preventDefault();
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.log("ERROR: ", error);
+      return;
+    }
+
+    navigate('/');
+  }
 
   const fetchProjects = async () => {
     const { data, error } = await supabase
@@ -29,11 +44,18 @@ function App() {
   async function addProject(event) {
       event.preventDefault();
 
+      const project_title = projectInput;
+
+      if (project_title === '') {
+        window.alert("Fill in the input!");
+        return;
+      }
+
       const { error } = await supabase
       .from('projects')
       .insert({
         id: Date.now(),
-        title: projectInput
+        title: project_title
       })
 
       if (error) {
@@ -70,6 +92,7 @@ function App() {
   return (
     <>
     <div id='btn-container'>
+      <a href="" onClick={logOut}>Logout</a>
       <button type="submit" className='open-panel-btn' onClick={togglePanel}>+</button>
     </div>
 
@@ -99,4 +122,4 @@ function App() {
   )
 }
 
-export default App
+export default Dashboard

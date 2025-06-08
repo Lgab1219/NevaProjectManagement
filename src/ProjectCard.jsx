@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Form from './Form.jsx'
 import Task from './Task.jsx'
 import supabase from './js/supabase.js'
-import './App.css'
+import './css/App.css'
 
 
 function ProjectCard({ projectID, removeProject, projectTitle }) {
@@ -81,6 +81,14 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
   }
 
   async function handleRemove(projectTitle) {
+
+    // Delete tasks referenced from project_id
+    await supabase
+    .from('tasks')
+    .delete()
+    .eq('project_id', projectID)
+
+    // Then delete project itself
     const { error } = await supabase
     .from('projects')
     .delete()
