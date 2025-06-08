@@ -81,6 +81,14 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
   }
 
   async function handleRemove(projectTitle) {
+
+    // Delete tasks referenced from project_id
+    await supabase
+    .from('tasks')
+    .delete()
+    .eq('project_id', projectID)
+
+    // Then delete project itself
     const { error } = await supabase
     .from('projects')
     .delete()
