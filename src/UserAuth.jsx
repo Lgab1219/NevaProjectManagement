@@ -1,12 +1,24 @@
-// import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
+import Register from "./Register.jsx"
+import Login from "./Login.jsx"
+import { useNavigate } from "react-router"
 import { useState } from "react"
-import supabase from "./js/supabase";
+import UserContext from "./js/UserContext.js"
+import supabase from "./js/supabase"
 
 function UserAuth() {
 
     const [emailInput, setEmailInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
     const [userInput, setUserInput] = useState('');
+    const [isLogin, setIsLogin] = useState(true);
+    const navigate = useNavigate();
+
+    function loginRegisterToggle(event) {
+        event.preventDefault();
+
+        setIsLogin(!isLogin);
+    }
 
     async function registerAccount(event) {
         event.preventDefault();
@@ -28,23 +40,37 @@ function UserAuth() {
         }
     }
 
+    async function loginAccount(event) {
+        event.preventDefault();
+
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: emailInput,
+            password: passwordInput
+        })
+
+        if (error) {
+            window.alert("Invalid email or password!");
+            console.log("ERROR: ", error);
+            return;
+        }
+
+        if (data && data.user) {
+            navigate('/dashboard');
+        }
+    }
+
     return (
         <>
-            <div>
-                <h1>Register</h1>
-                <form onSubmit={registerAccount}>
-                    <label htmlFor="user-input">Username</label><br />
-                    <input type="text" name="username" id="user-input" onChange={(e) => {setUserInput(e.target.value)}} /><br /><br />
+            <UserContext value={{ setUserInput, setEmailInput, setPasswordInput, registerAccount, loginAccount }}>
+                {isLogin ? <Login /> : <Register />}
 
-                    <label htmlFor="email-input">Email</label><br />
-                    <input type="text" name="email" id="email-input" onChange={(e) => {setEmailInput(e.target.value)}} /><br /><br />
+                {isLogin ? (
+                    <p>Want an account? <a href="" onClick={loginRegisterToggle}>Register</a> here!</p>
+                ) : (
+                    <p>Already have an account? <a href="">Login</a> here!</p>
+                )}
 
-                    <label htmlFor="password-input">Password</label><br />
-                    <input type="text" name="password" id="password-input" onChange={(e) => {setPasswordInput(e.target.value)}} /><br /><br />
-
-                    <button type="submit">Register</button>
-                </form>
-            </div>
+            </UserContext>
         </>
     )
 }
