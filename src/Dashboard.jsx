@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import { v4 as uuidv4 } from 'uuid'
 import ProjectCard from './ProjectCard.jsx'
 import supabase from './js/supabase.js'
 import './css/App.css'
@@ -11,6 +12,19 @@ function Dashboard() {
   const [projectPanel, toggleProjectPanel] = useState(false);
   const panelRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      
+      if (error || !data.user) {
+        window.alert("Please login to access your dashboard!");
+        navigate('/');
+      }
+    };
+
+    checkAuth();
+  }, [navigate]);
 
   async function logOut(event) {
     event.preventDefault();
@@ -26,9 +40,12 @@ function Dashboard() {
   }
 
   const fetchProjects = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+
     const { data, error } = await supabase
     .from('projects')
     .select('*')
+    .eq('created_by', user.id) // Fetch user data where created_by column is equal to current logged user.id
 
     if (error) {
       console.log("ERROR: ", error);
@@ -50,12 +67,15 @@ function Dashboard() {
         window.alert("Fill in the input!");
         return;
       }
+      // Fetch current user and place it in created_by column for each project created
+      const { data: { user } } = await supabase.auth.getUser();
 
       const { error } = await supabase
       .from('projects')
       .insert({
-        id: Date.now(),
-        title: project_title
+        id: uuidv4(),
+        title: projectInput,
+        created_by: user.id
       })
 
       if (error) {
