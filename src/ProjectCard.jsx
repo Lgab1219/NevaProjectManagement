@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import Form from './Form.jsx'
 import Task from './Task.jsx'
 import supabase from './js/supabase.js'
@@ -16,7 +17,7 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
     const {data, error} = await supabase
     .from('tasks')
     .select('*')
-    .eq('project_id', projectID)
+    .eq('project_id', projectID) // Fetch data based on the project's id
 
     if (error) {
       console.log("ERROR: ", error);
@@ -37,7 +38,7 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
     const { error } = await supabase
     .from('tasks')
     .insert({
-      id: Date.now(),
+      id: uuidv4(),
       text: taskInput,
       priority: priorityValue,
       completed: false,
