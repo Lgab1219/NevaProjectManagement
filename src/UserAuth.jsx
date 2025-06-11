@@ -61,15 +61,8 @@ function UserAuth() {
 
     return (
         <>
-            <UserContext value={{ setUserInput, setEmailInput, setPasswordInput, registerAccount, loginAccount }}>
+            <UserContext value={{ isLogin, loginRegisterToggle, setUserInput, setEmailInput, setPasswordInput, registerAccount, loginAccount }}>
                 {isLogin ? <Login /> : <Register />}
-
-                {isLogin ? (
-                    <p>Want an account? <a href="" onClick={loginRegisterToggle}>Register</a> here!</p>
-                ) : (
-                    <p>Already have an account? <a href="">Login</a> here!</p>
-                )}
-
             </UserContext>
         </>
     )
