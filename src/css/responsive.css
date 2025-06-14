@@ -1,0 +1,38 @@
+
+/* Medium screens */
+@media screen and (max-width: 1300px) {
+
+.login-container, .register-container {
+    width: 50vw;
+}
+
+}
+
+/* Small screens */
+@media screen and (max-width: 650px) {
+
+.login-btn {
+    width: 30vw;
+}
+
+.login-container {
+    width: 80vw;
+}
+
+.register-container {
+    width: 80vw;
+    height: 85vh;
+}
+
+.login-bgtext {
+    font-size: 10vw;
+    padding: 4em 2em;
+}
+
+.register-bgtext {
+    font-size: 6vw;
+    padding: 6em 1em;
+    overflow: hidden;
+}
+
+}
