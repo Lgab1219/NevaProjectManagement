@@ -111,7 +111,7 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
     return (
         <>
         <div className={`project ${projectRemoved ? 'remove' : ''}`}>
-          <span><button className='remove-project-btn' onClick={() => handleRemove(projectID)}>x</button></span>
+          <span><button className='remove-project-btn' onClick={() => handleRemove(projectID)}>-</button></span>
           <h1>{projectTitle}</h1>
           <Form addTask={addTask} setTaskInput={setTaskInput} taskInput={taskInput} />
           <h2>Tasks:</h2><br />

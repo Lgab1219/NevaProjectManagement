@@ -6,6 +6,12 @@
     width: 50vw;
 }
 
+#project-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
 }
 
 /* Small screens */
