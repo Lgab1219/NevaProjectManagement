@@ -6,16 +6,44 @@
     width: 50vw;
 }
 
-#project-container {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
+.project {
+    width: 30vw;
+}
+
+.open-panel-btn {
+    width: 6.5vw;
 }
 
 }
 
 /* Small screens */
 @media screen and (max-width: 650px) {
+
+#project-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.project {
+    width: 90vw;
+}
+
+.open-panel-btn {
+    width: 10vw;
+}
+
+#task-input, #priority, .add-btn {
+    width: 120%;
+}
+
+.complete-btn {
+    width: 52vw;
+}
+
+.task {
+    width: 120%;
+}
 
 .login-btn {
     width: 30vw;

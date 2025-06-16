@@ -5,6 +5,7 @@ import ProjectCard from './ProjectCard.jsx'
 import supabase from './js/supabase.js'
 import './css/App.css'
 import './css/responsive.css'
+import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
 
 function Dashboard() {
 
