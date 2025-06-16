@@ -29,7 +29,7 @@ function Login() {
 
                     <div className="form-group">
                         <label htmlFor="password-input">Password</label><br />
-                        <input type="text" name="password" id="password-input" onChange={(e) => {context.setPasswordInput(e.target.value)}} /><br /><br />
+                        <input type="password" name="password" id="password-input" onChange={(e) => {context.setPasswordInput(e.target.value)}} /><br /><br />
                     </div>
 
                     <button className="login-btn my-3 rounded-5 inter" type="submit">Login</button>
