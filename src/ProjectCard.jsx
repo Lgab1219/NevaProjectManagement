@@ -4,6 +4,7 @@ import Form from './Form.jsx'
 import Task from './Task.jsx'
 import supabase from './js/supabase.js'
 import './css/App.css'
+import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
 
 
 function ProjectCard({ projectID, removeProject, projectTitle }) {
@@ -111,7 +112,14 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
     return (
         <>
         <div className={`project ${projectRemoved ? 'remove' : ''}`}>
-          <span><button className='remove-project-btn' onClick={() => handleRemove(projectID)}>x</button></span>
+          <button className='navbar-toggler' type='button' data-bs-toggle="collapse" data-bs-target={`#projectMoreOptions-${projectID}`} aria-controls={`projectMoreOptions-${projectID}`} aria-expanded="false" aria-label="Toggle navigation">
+            <span>...</span>  
+          </button>
+          <div className='collapse mx-5' id={`projectMoreOptions-${projectID}`}>
+            <p>Lorem Ipsum</p>
+          </div>
+
+          <span><button className='remove-project-btn' onClick={() => handleRemove(projectID)}>-</button></span>
           <h1>{projectTitle}</h1>
           <Form addTask={addTask} setTaskInput={setTaskInput} taskInput={taskInput} />
           <h2>Tasks:</h2><br />

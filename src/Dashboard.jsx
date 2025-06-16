@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid'
 import ProjectCard from './ProjectCard.jsx'
 import supabase from './js/supabase.js'
 import './css/App.css'
+import './css/responsive.css'
+import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
 
 function Dashboard() {
 
@@ -111,8 +113,26 @@ function Dashboard() {
 
   return (
     <>
+
+    <nav className="navbar navbar-expand-lg d-flex">
+        <a className="navbar-brand mx-5" href="#">
+          <img src="../resources/NEVA_Logo.png" className="logo-dashboard" alt="logo" />
+        </a>
+
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div className="nav-menu collapse navbar-collapse justify-content-end mx-5" id="navbarText">
+          <ul className="navbar-nav mb-2 mb-lg-0">
+            <li className="nav-item">
+              <a href="" className='text-decoration-none menu-item' onClick={logOut}>Logout</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+
     <div id='btn-container'>
-      <a href="" onClick={logOut}>Logout</a>
       <button type="submit" className='open-panel-btn' onClick={togglePanel}>+</button>
     </div>
 
