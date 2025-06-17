@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import Form from './Form.jsx'
 import Task from './Task.jsx'
+import InvitePanel from './InvitePanel.jsx'
 import supabase from './js/supabase.js'
 import './css/App.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -12,6 +13,7 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
   const [tasks, setTask] = useState([]);
   const [taskInput, setTaskInput] = useState('');
   const [projectRemoved, setProjectRemoved] = useState(false);
+  const [inviteUser, setInviteUser] = useState(false);
 
   // Since fetching tasks is an async function, you need to await supabase in order to render data
   const fetchTasks = async () => {
@@ -109,14 +111,19 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
    }, 500);
   }
 
+  function handleInvite() {
+    setInviteUser(!inviteUser);
+    console.log(inviteUser);
+  }
+
     return (
         <>
         <div className={`project ${projectRemoved ? 'remove' : ''}`}>
           <button className='navbar-toggler' type='button' data-bs-toggle="collapse" data-bs-target={`#projectMoreOptions-${projectID}`} aria-controls={`projectMoreOptions-${projectID}`} aria-expanded="false" aria-label="Toggle navigation">
-            <span>...</span>  
+            <span className='project-opt'>...</span>  
           </button>
-          <div className='collapse mx-5' id={`projectMoreOptions-${projectID}`}>
-            <p>Lorem Ipsum</p>
+          <div className='collapse' id={`projectMoreOptions-${projectID}`}>
+            <p className='invite' onClick={handleInvite}>Invite Users</p>
           </div>
 
           <span><button className='remove-project-btn' onClick={() => handleRemove(projectID)}>-</button></span>
@@ -124,7 +131,9 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
           <Form addTask={addTask} setTaskInput={setTaskInput} taskInput={taskInput} />
           <h2>Tasks:</h2><br />
           <Task tasks={tasks} removeTask={removeTask} />
+          <InvitePanel inviteUser={inviteUser} />
         </div>
+
         </>
     )
 }
