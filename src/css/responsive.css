@@ -14,6 +14,11 @@
     width: 6.5vw;
 }
 
+.inv-panel-container {
+    width: 50vw;
+    left: -10vw;
+}
+
 }
 
 /* Small screens */
@@ -29,6 +34,11 @@
     width: 90vw;
 }
 
+.inv-panel-container {
+    width: 90vw;
+    left: 0;
+}
+
 .open-panel-btn {
     width: 10vw;
 }
@@ -37,7 +47,7 @@
     width: 120%;
 }
 
-.complete-btn {
+.complete-btn, .inv-btn {
     width: 52vw;
 }
 
