@@ -118,7 +118,7 @@ body {
     border: 1px solid #545E75;
 }
 
-.invite:hover {
+.invite:hover, .invite-users:hover {
     cursor: pointer;
     color: #C03221;
     transition: color 0.3s ease;
