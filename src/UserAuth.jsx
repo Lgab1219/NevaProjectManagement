@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import Register from "./Register.jsx"
 import Login from "./Login.jsx"
 import { useNavigate } from "react-router"

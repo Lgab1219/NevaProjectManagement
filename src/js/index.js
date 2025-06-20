@@ -20,7 +20,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Fetch users and filter them by display name
+// Fetch users from "/search-users" url and filter them by display name
 app.get('/search-users', async (request, result) => {
   try {
     const { query } = request.query;

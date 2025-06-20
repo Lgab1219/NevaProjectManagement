@@ -44,16 +44,34 @@ function Dashboard() {
   const fetchProjects = async () => {
     const { data: { user } } = await supabase.auth.getUser();
 
-    const { data, error } = await supabase
+    const { data: all_data, error: all_error } = await supabase
     .from('projects')
     .select('*')
     .eq('created_by', user.id) // Fetch user data where created_by column is equal to current logged user.id
 
-    if (error) {
-      console.log("ERROR: ", error);
-    } else {
-      setProjects(data);
+    if (all_error) {
+      console.log("ERROR: ", all_error);
     }
+
+    const { data: shared_data, error: shared_error } = await supabase
+    .from('shared_projects')
+    .select('project_id')
+    .eq('shared_to', user.id)
+
+    const sharedId = shared_data.map(project => project.project_id); // This variable is an array with multiple projectIDs
+
+    const { data: shared_projects, error: sharedProjects_error } = await supabase
+    .from('projects')
+    .select('*')
+    .in('id', sharedId) // Checks multiple project IDs at the same time unlike "eq" which checks 1 at a time
+
+    if (shared_error || sharedProjects_error) {
+      console.log("ERROR: ", shared_error || sharedProjects_error);
+    }
+
+    setProjects([...all_data, ...shared_projects]);
+
+
   }
 
   useEffect(() => {

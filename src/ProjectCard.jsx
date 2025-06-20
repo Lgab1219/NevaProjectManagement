@@ -4,6 +4,7 @@ import Form from './Form.jsx'
 import Task from './Task.jsx'
 import InvitePanel from './InvitePanel.jsx'
 import supabase from './js/supabase.js'
+import UserContext from './js/UserContext.js'
 import './css/App.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
 
@@ -113,7 +114,6 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
 
   function handleInvite() {
     setInviteUser(!inviteUser);
-    console.log(inviteUser);
   }
 
     return (
@@ -128,10 +128,12 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
 
           <span><button className='remove-project-btn' onClick={() => handleRemove(projectID)}>-</button></span>
           <h1>{projectTitle}</h1>
-          <Form addTask={addTask} setTaskInput={setTaskInput} taskInput={taskInput} />
-          <h2>Tasks:</h2><br />
-          <Task tasks={tasks} removeTask={removeTask} />
-          <InvitePanel inviteUser={inviteUser} />
+          <UserContext value={{ addTask, setTaskInput, taskInput, tasks, removeTask, inviteUser, projectID }}>
+            <Form />
+            <h2>Tasks:</h2><br />
+            <Task />
+            <InvitePanel />
+          </UserContext>
         </div>
 
         </>

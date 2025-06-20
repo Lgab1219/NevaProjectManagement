@@ -1,10 +1,14 @@
+import UserContext from './js/UserContext';
+import { useContext } from 'react';
 import './css/App.css'
 
-function Form({ addTask, setTaskInput, taskInput  }) {
+function Form() {
+
+  const context = useContext(UserContext);
 
     function handleAdd(event) {
     event.preventDefault();
-    addTask(event);
+    context.addTask(event);
     }
 
     return (
@@ -12,7 +16,7 @@ function Form({ addTask, setTaskInput, taskInput  }) {
       <div className='task-container'>
         <form className='task-form' onSubmit={handleAdd}>
           <label htmlFor="task-input">Write your task below</label><br />
-          <input type="text" name="taskInput" id='task-input' value={taskInput} onChange={(e) => { setTaskInput(e.target.value) }}/><br />
+          <input type="text" name="taskInput" id='task-input' value={context.taskInput} onChange={(e) => { context.setTaskInput(e.target.value) }}/><br />
           <label htmlFor="priority">Priority: </label>
           <select name="priority" id="priority">
             <option value="urgent">Urgent</option>

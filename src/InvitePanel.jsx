@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+import UserContext from './js/UserContext.js'
 import './css/App.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
+import supabase from './js/supabase.js';
 
-function invitePanel({ inviteUser }) {
+function invitePanel() {
 
     const [users, setUsers] = useState([]);
     const [userInput, setUserInput] = useState('');
+    const context = useContext(UserContext);
 
     const searchUsers = async (input) => {
         const result = await fetch(`http://localhost:4000/search-users?query=${input}`);
@@ -13,6 +17,31 @@ function invitePanel({ inviteUser }) {
         const usersJSON = await result.json();
 
         setUsers(usersJSON);
+    }
+
+    // Deletes listed user once user is invited to the project
+    const deleteUsername = (userID) => {
+      const updatedUsers = users.filter(user => (user.id !== userID));
+      setUsers(updatedUsers);
+    }
+
+    const handleInviteUsers = async (user) => {
+
+      const { error } = await supabase
+      .from('shared_projects')
+      .insert({
+        id: uuidv4(),
+        project_id: context.projectID,
+        shared_to: user.id
+      })
+
+      if (error) {
+        console.log("ERROR: ", error);
+      } else {
+        window.alert(user.user_metadata.displayName + "  is invited to your project!");
+        deleteUsername(user.id);
+      }
+
     }
 
     useEffect(() => {
@@ -29,15 +58,14 @@ function invitePanel({ inviteUser }) {
 
     return (
         <>
-        <div className={`inv-panel-container ${inviteUser ? '' : 'close'}`}>
+        <div className={`inv-panel-container ${context.inviteUser ? '' : 'close'}`}>
           <section className='inv-panel'>
             <form className='inv-panel-form'>
-              <label htmlFor="inv-input">Project Title</label><br />
+              <label htmlFor="inv-input">Search for users to collaborate with:</label><br />
               <input type="text" name="invInput" id="inv-input" onChange={(e) => {setUserInput(e.target.value)}} />
-              <button type="submit" className='inv-btn'>Invite User</button>
             </form>
             { users.map(user => (
-                    <p key={user.id}>{user.user_metadata.displayName}</p>
+                    <p className='invite-users' onClick={() => { handleInviteUsers(user) }} key={user.id}>{user.user_metadata.displayName}</p>
             )) }
           </section>
         </div>        
