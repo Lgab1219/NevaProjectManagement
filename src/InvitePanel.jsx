@@ -19,6 +19,12 @@ function invitePanel() {
         setUsers(usersJSON);
     }
 
+    // Deletes listed user once user is invited to the project
+    const deleteUsername = (userID) => {
+      const updatedUsers = users.filter(user => (user.id !== userID));
+      setUsers(updatedUsers);
+    }
+
     const handleInviteUsers = async (user) => {
 
       const { error } = await supabase
@@ -26,13 +32,14 @@ function invitePanel() {
       .insert({
         id: uuidv4(),
         project_id: context.projectID,
-        user_id: user.id
+        shared_to: user.id
       })
 
       if (error) {
         console.log("ERROR: ", error);
       } else {
         window.alert(user.user_metadata.displayName + "  is invited to your project!");
+        deleteUsername(user.id);
       }
 
     }
@@ -58,7 +65,7 @@ function invitePanel() {
               <input type="text" name="invInput" id="inv-input" onChange={(e) => {setUserInput(e.target.value)}} />
             </form>
             { users.map(user => (
-                    <p onClick={() => { handleInviteUsers(user) }} key={user.id}>{user.user_metadata.displayName}</p>
+                    <p className='invite-users' onClick={() => { handleInviteUsers(user) }} key={user.id}>{user.user_metadata.displayName}</p>
             )) }
           </section>
         </div>        
