@@ -54,7 +54,7 @@ function UserAuth() {
         }
 
         if (data && data.user) {
-            navigate('/dashboard');
+            navigate('/home');
         }
     }
 
