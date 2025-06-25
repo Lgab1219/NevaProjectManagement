@@ -116,6 +116,20 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
     setInviteUser(!inviteUser);
   }
 
+  const createChatGroup = async () => {
+
+    const { error } = await supabase
+    .from('project-chatgroups')
+    .insert({
+      project_id: projectID,
+      created_by: 
+    })
+  }
+
+  // Insert query to project-chatgroups table onClick (chatgroup-id, project-id, created-by)
+  // Auto get query from shared_projects table where shared_to has project_id equal to project_id
+  // Then if current user is not equal to project-chatgroups' creator, add creator to the list  
+
     return (
         <>
         <div className={`project ${projectRemoved ? 'remove' : ''}`}>
@@ -124,6 +138,7 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
           </button>
           <div className='collapse' id={`projectMoreOptions-${projectID}`}>
             <p className='invite' onClick={handleInvite}>Invite Users</p>
+            <p className='create-chat'>Create Project Chat</p>
           </div>
 
           <span><button className='remove-project-btn' onClick={() => handleRemove(projectID)}>-</button></span>
