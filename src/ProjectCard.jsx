@@ -116,25 +116,17 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
     setInviteUser(!inviteUser);
   }
 
-  const createChatGroup = async () => {
+  // Every time a user is invited, there will be a query that will be inserted into "chat_users" table (chat_id, user_id,
+  // project_id) + also insert query current logged user to the table.
+  
+  // Then, the data from "chat_users" table will be fetched where the project_id (chat_users) is equal to projectID.
 
-    const { error } = await supabase
-    .from('project-chatgroups')
-    .insert({
-      project_id: projectID,
-      created_by: 
-    })
-  }
-
-  // Insert query to project-chatgroups table onClick (chatgroup-id, project-id, created-by)
-  // Auto get query from shared_projects table where shared_to has project_id equal to project_id
-  // Then if current user is not equal to project-chatgroups' creator, add creator to the list  
 
     return (
         <>
         <div className={`project ${projectRemoved ? 'remove' : ''}`}>
           <button className='navbar-toggler' type='button' data-bs-toggle="collapse" data-bs-target={`#projectMoreOptions-${projectID}`} aria-controls={`projectMoreOptions-${projectID}`} aria-expanded="false" aria-label="Toggle navigation">
-            <span className='project-opt'>...</span>  
+            <span className='project-opt'>...</span>
           </button>
           <div className='collapse' id={`projectMoreOptions-${projectID}`}>
             <p className='invite' onClick={handleInvite}>Invite Users</p>

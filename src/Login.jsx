@@ -17,7 +17,7 @@ function Login() {
 
            </div>
 
-            <main className="login-container d-block text-center rounded-4 inter z-1">
+            <div className="login-container d-block text-center rounded-4 inter z-1">
                 <span>
                     <img src="../resources/NEVA_Logo.png" className="logo" alt="logo" />
                 </span>
@@ -35,7 +35,7 @@ function Login() {
                     <button className="login-btn my-3 rounded-5 inter" type="submit">Login</button>
                     <p>Want an account? <a href="" onClick={context.loginRegisterToggle}>Register</a> here!</p>
                 </form>
-            </main>
+            </div>
         </div>
         </>
     )

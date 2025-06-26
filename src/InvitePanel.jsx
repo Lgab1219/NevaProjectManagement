@@ -42,6 +42,19 @@ function invitePanel() {
         deleteUsername(user.id);
       }
 
+      // Add invited users to chat_users table (for sidebar chat)
+      const { error: chatUserError } = await supabase
+      .from('chat_users')
+      .insert({
+        user_id: user.id,
+        project_id: context.projectID
+      })
+
+      if (chatUserError) {
+        console.log("ERROR: ", chatUserError);
+        return;
+      }
+
     }
 
     useEffect(() => {
