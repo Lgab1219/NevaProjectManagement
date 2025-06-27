@@ -1,34 +1,40 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import supabase from './js/supabase'
-import UserContext from './js/UserContext'
+import { dashboardStore } from './js/useStores'
 import './css/App.css'
 
 function Sidebar() {
 
-    const context = useContext(UserContext);
     const [chatUsers, setChatUsers] = useState([]);
+    const projectID = dashboardStore((state) => state.projectID);
 
     useEffect(() => {
 
+        if (!projectID) {
+            return;
+        }
+
         const fetchChatUsers = async () => {
 
-            const { data, error } = await supabase
+            const { data: chatUsersData, error: chatUsersError } = await supabase
             .from('chat_users')
             .select('*')
-            .eq('project_id', context.projectID)
+            .eq('project_id', projectID)
 
-            if (error) {
-                console.log("ERROR: ", error);
+            if (chatUsersError) {
+                console.log("ERROR: ", chatUsersError);
                 return;
             }
 
-            setChatUsers(data);
-            console.log("USERS: ", chatUsers);
+            // Cannot store specific chat user data yet.
+            // I would have to setup a seperate profiles table, then insert all usernames there after registration
+            
+
         }
 
         fetchChatUsers();
 
-    }, [context.inviteUser])
+    }, [projectID]);
 
     return (
         <>
