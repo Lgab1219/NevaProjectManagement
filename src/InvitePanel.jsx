@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { dashboardStore } from './js/useStores'
 import UserContext from './js/UserContext.js'
 import './css/App.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -10,6 +11,7 @@ function invitePanel() {
     const [users, setUsers] = useState([]);
     const [userInput, setUserInput] = useState('');
     const context = useContext(UserContext);
+    const setProjectID = dashboardStore((state) => state.setProjectID);
 
     const searchUsers = async (input) => {
         const result = await fetch(`http://localhost:4000/search-users?query=${input}`);
@@ -54,6 +56,8 @@ function invitePanel() {
         console.log("ERROR: ", chatUserError);
         return;
       }
+
+      setProjectID(context.projectID);
 
     }
 
