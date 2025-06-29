@@ -1,40 +1,37 @@
 import { useState, useEffect } from 'react'
 import supabase from './js/supabase'
-import { dashboardStore } from './js/useStores'
+import { dashboardStore } from './js/useStores';
 import './css/App.css'
 
 function Sidebar() {
 
     const [chatUsers, setChatUsers] = useState([]);
-    const projectID = dashboardStore((state) => state.projectID);
+    const storeSetChatUsers = dashboardStore((state) => state.storeSetChatUsers);
 
     useEffect(() => {
 
-        if (!projectID) {
-            return;
-        }
-
         const fetchChatUsers = async () => {
 
-            const { data: chatUsersData, error: chatUsersError } = await supabase
+            const { data: profilesData, error: profilesError } = await supabase
             .from('chat_users')
-            .select('*')
-            .eq('project_id', projectID)
+            .select(`
+                    user_id,
+                    username
+                `)
 
-            if (chatUsersError) {
-                console.log("ERROR: ", chatUsersError);
+            if (profilesError) {
+                console.log("ERROR: ", profilesError);
                 return;
             }
 
-            // Cannot store specific chat user data yet.
-            // I would have to setup a seperate profiles table, then insert all usernames there after registration
-            
+            setChatUsers(profilesData);
+            storeSetChatUsers(profilesData);
 
         }
 
         fetchChatUsers();
 
-    }, [projectID]);
+    }, [chatUsers]);
 
     return (
         <>
@@ -42,6 +39,13 @@ function Sidebar() {
                 <form>
                     <label htmlFor="searchChatUser" className='text-white mt-5 mb-2'>Send Messages</label>
                     <input type="text" name="search-chat-user" id="searchChatUser" />
+                    {
+                        chatUsers.map(user => (
+                            <p key={user.user_id} className='text-white'>
+                                {user.username}
+                            </p>
+                        ))
+                    }
                 </form>
             </div>
         </>
