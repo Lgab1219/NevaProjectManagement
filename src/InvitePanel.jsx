@@ -11,9 +11,18 @@ function invitePanel() {
     const [users, setUsers] = useState([]);
     const [userInput, setUserInput] = useState('');
     const context = useContext(UserContext);
-    const setProjectID = dashboardStore((state) => state.setProjectID);
+    const setUsername = dashboardStore((state) => state.setUsername);
+    const storeChatUsers = dashboardStore((state) => state.storeChatUsers);
 
     const searchUsers = async (input) => {
+        const {data: userData, error: userError} = await supabase.auth.getUser();
+
+        if (input === userData.user.user_metadata.displayName) {
+          return;
+        }
+
+        console.log("STORE: ", storeChatUsers);
+
         const result = await fetch(`http://localhost:4000/search-users?query=${input}`);
 
         const usersJSON = await result.json();
@@ -23,12 +32,14 @@ function invitePanel() {
 
     // Deletes listed user once user is invited to the project
     const deleteUsername = (userID) => {
-      const updatedUsers = users.filter(user => (user.id !== userID));
+      const updatedUsers = users.filter(user => (user.id !== userID && !storeChatUsers.some((cu) => cu.userID === userID)));
+      // ERROR: Invited users does not get filtered out in InvitePanel
       setUsers(updatedUsers);
     }
 
     const handleInviteUsers = async (user) => {
 
+      // Add users to shared_projects table (to share the project with other users)
       const { error } = await supabase
       .from('shared_projects')
       .insert({
@@ -49,7 +60,8 @@ function invitePanel() {
       .from('chat_users')
       .insert({
         user_id: user.id,
-        project_id: context.projectID
+        project_id: context.projectID,
+        username: user.user_metadata.displayName
       })
 
       if (chatUserError) {
@@ -57,7 +69,7 @@ function invitePanel() {
         return;
       }
 
-      setProjectID(context.projectID);
+      setUsername(user.id, user.user_metadata.displayName);
 
     }
 
