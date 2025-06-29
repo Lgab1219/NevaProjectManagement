@@ -116,14 +116,21 @@ function ProjectCard({ projectID, removeProject, projectTitle }) {
     setInviteUser(!inviteUser);
   }
 
+  // Every time a user is invited, there will be a query that will be inserted into "chat_users" table (chat_id, user_id,
+  // project_id) + also insert query current logged user to the table.
+  
+  // Then, the data from "chat_users" table will be fetched where the project_id (chat_users) is equal to projectID.
+
+
     return (
         <>
         <div className={`project ${projectRemoved ? 'remove' : ''}`}>
           <button className='navbar-toggler' type='button' data-bs-toggle="collapse" data-bs-target={`#projectMoreOptions-${projectID}`} aria-controls={`projectMoreOptions-${projectID}`} aria-expanded="false" aria-label="Toggle navigation">
-            <span className='project-opt'>...</span>  
+            <span className='project-opt'>...</span>
           </button>
           <div className='collapse' id={`projectMoreOptions-${projectID}`}>
             <p className='invite' onClick={handleInvite}>Invite Users</p>
+            <p className='create-chat'>Create Project Chat</p>
           </div>
 
           <span><button className='remove-project-btn' onClick={() => handleRemove(projectID)}>-</button></span>

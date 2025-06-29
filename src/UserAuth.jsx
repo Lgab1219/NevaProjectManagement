@@ -22,7 +22,7 @@ function UserAuth() {
     async function registerAccount(event) {
         event.preventDefault();
 
-        const { data, error } = await supabase.auth.signUp({
+        const { data: signupData, error: signupError } = await supabase.auth.signUp({
             email: emailInput,
             password: passwordInput,
             options: {
@@ -32,7 +32,7 @@ function UserAuth() {
             }
         })
 
-        if (error) {
+        if (signupError) {
             console.log("ERROR: ", error);
         } else {
             window.alert("You have successfully registered! Please check your email to confirm your registration.");
@@ -54,7 +54,7 @@ function UserAuth() {
         }
 
         if (data && data.user) {
-            navigate('/dashboard');
+            navigate('/home');
         }
     }
 
