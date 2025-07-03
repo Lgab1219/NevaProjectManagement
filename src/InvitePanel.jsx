@@ -17,10 +17,6 @@ function invitePanel() {
     const searchUsers = async (input) => {
         const {data: userData, error: userError} = await supabase.auth.getUser();
 
-        /*if (input === userData.user.user_metadata.displayName) {
-          return;
-        }*/
-
         const result = await fetch(`http://localhost:4000/search-users?query=${input}`);
 
         const usersJSON = await result.json();

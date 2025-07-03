@@ -14,6 +14,10 @@ function Sidebar() {
 
             const { data: { user } } = await supabase.auth.getUser();
 
+            if (!user) {
+                return;
+            }
+
             const { data: profilesData, error: profilesError } = await supabase
             .from('chat_users')
             .select(`
@@ -26,9 +30,9 @@ function Sidebar() {
                 return;
             }
 
-            // const filteredChatUsers = profilesData.filter(user => user.username !== user.user_metadata.displayName);
+            const filteredChatUsers = profilesData.filter(users => users.username !== user.user_metadata?.displayName);
 
-            setChatUsers(profilesData);
+            setChatUsers(filteredChatUsers);
 
             // If username from profilesData is equal to current logged username, filter it out.
             // Then add username of project creator (no logic yet)
