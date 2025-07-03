@@ -57,8 +57,6 @@ function Dashboard() {
     }
 
     setProjects([...all_data, ...shared_projects]);
-
-
   }
 
   useEffect(() => {
@@ -77,13 +75,17 @@ function Dashboard() {
       // Fetch current user and place it in created_by column for each project created
       const { data: { user } } = await supabase.auth.getUser();
 
-      const { error } = await supabase
+      const { data: newProjectData, error } = await supabase
       .from('projects')
       .insert({
         id: uuidv4(),
         title: projectInput,
         created_by: user.id
       })
+      .select()
+
+      // Select most recently created project
+      const selectedProject = newProjectData[0];
 
       if (error) {
         console.log("ERROR: ", error);
@@ -91,13 +93,21 @@ function Dashboard() {
         await fetchProjects();
       }
 
-      /*const newProject = {
-        id: Date.now(),
-        title: projectInput
-      }*/
+      // Add currently logged user to chat_users table (for sidebar chat)
+      const { error: chatUserError } = await supabase
+      .from('chat_users')
+      .insert({
+        user_id: user.id,
+        project_id: selectedProject.id,
+        username: user.user_metadata.displayName
+      })
+
+      if (chatUserError) {
+        console.log("ERROR: ", chatUserError);
+        return;
+      }
 
       toggleProjectPanel(!projectPanel);
-      //setProjects([...projects, newProject]);
   }
 
   function removeProject(projectID) {

@@ -17,22 +17,20 @@ function invitePanel() {
     const searchUsers = async (input) => {
         const {data: userData, error: userError} = await supabase.auth.getUser();
 
-        if (input === userData.user.user_metadata.displayName) {
-          return;
-        }
-
-        console.log("STORE: ", storeChatUsers);
-
         const result = await fetch(`http://localhost:4000/search-users?query=${input}`);
 
         const usersJSON = await result.json();
 
-        setUsers(usersJSON);
+        const filteredUsers = usersJSON.filter(user => user.user_metadata.displayName !== userData.user.user_metadata.displayName
+          && !storeChatUsers.some(cu => cu.user_id === user.id)
+        );
+
+        setUsers(filteredUsers);
     }
 
     // Deletes listed user once user is invited to the project
     const deleteUsername = (userID) => {
-      const updatedUsers = users.filter(user => (user.id !== userID && !storeChatUsers.some((cu) => cu.userID === userID)));
+      const updatedUsers = users.filter(user => (user.id !== userID));
       // ERROR: Invited users does not get filtered out in InvitePanel
       setUsers(updatedUsers);
     }
