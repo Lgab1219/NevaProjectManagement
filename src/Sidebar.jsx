@@ -25,6 +25,8 @@ function Sidebar() {
                     username
                 `)
 
+            // BUG: Shows duplicate usernames even though they have different project ids.
+
             if (profilesError) {
                 console.log("ERROR: ", profilesError);
                 return;
@@ -34,11 +36,7 @@ function Sidebar() {
 
             setChatUsers(filteredChatUsers);
 
-            // If username from profilesData is equal to current logged username, filter it out.
-            // Then add username of project creator (no logic yet)
-
             storeSetChatUsers(profilesData);
-
         }
 
         fetchChatUsers();

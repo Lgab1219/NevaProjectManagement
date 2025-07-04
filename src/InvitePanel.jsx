@@ -31,7 +31,6 @@ function invitePanel() {
     // Deletes listed user once user is invited to the project
     const deleteUsername = (userID) => {
       const updatedUsers = users.filter(user => (user.id !== userID));
-      // ERROR: Invited users does not get filtered out in InvitePanel
       setUsers(updatedUsers);
     }
 
